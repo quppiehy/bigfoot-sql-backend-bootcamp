@@ -33,14 +33,16 @@ class SightingsController extends BaseController {
   async editOne(req, res) {
     console.log(req.body);
     console.log(req.params.sightingId);
-    const { date, location, notes } = req.body;
-    console.log(date, location, notes);
+    const { date, locationdescription, city, country, notes } = req.body;
+    console.log(date, locationdescription, notes);
     const { sightingId } = req.params;
     try {
       const currentSighting = await this.model.findByPk(sightingId);
       await currentSighting.update({
         date: date,
-        location: location,
+        locationdescription: locationdescription,
+        city: city,
+        country: country,
         notes: notes,
       });
       const output = await this.model.findByPk(sightingId);
