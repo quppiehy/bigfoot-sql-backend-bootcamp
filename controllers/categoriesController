@@ -1,0 +1,31 @@
+const BaseController = require("./baseController");
+
+class CategoriesController extends BaseController {
+  constructor(model, category) {
+    super(model);
+    this.category = category;
+  }
+
+  // Retrieve all categories
+  async getCategories(req, res) {
+    try {
+      const categories = await this.category.findAll();
+      return res.json(categories);
+    } catch (err) {
+      return res.status(400).json({ error: true, msg: err });
+    }
+  }
+
+  async addCategory(req, res) {
+    try {
+      const newCategory = await this.category.create({
+        name: req.body.name,
+      });
+      return res.json(newCategory);
+    } catch (err) {
+      return res.status(400).json({ error: true, msg: err });
+    }
+  }
+}
+
+module.exports = CategoriesController;

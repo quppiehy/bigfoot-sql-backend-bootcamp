@@ -2,10 +2,12 @@ const BaseController = require("./baseController");
 const { Op } = require("sequelize");
 
 class SightingsController extends BaseController {
-  constructor(Sighting, Comment) {
+  constructor(sighting, comment, category, sighting_categories) {
     super();
-    this.Sighting = Sighting;
-    this.Comment = Comment;
+    this.Sighting = sighting;
+    this.Comment = comment;
+    this.Category = category;
+    this.sighting_categories = sighting_categories;
   }
 
   // Retrieve specific sighting
