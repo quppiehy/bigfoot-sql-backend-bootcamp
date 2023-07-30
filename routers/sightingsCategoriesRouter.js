@@ -21,19 +21,11 @@ class SightingsCategoriesRouter {
       "/",
       this.controller.addSightingsCategories.bind(this.controller)
     );
-    // router.put("/:sightingId", this.controller.editOne.bind(this.controller));
-    // router.post(
-    //   "/:sightingId/comments",
-    //   this.controller.postComment.bind(this.controller)
-    // );
-    // router.put(
-    //   "/:sightingId/comments/:id",
-    //   this.controller.editComment.bind(this.controller)
-    // );
-    // router.delete(
-    //   "/:sightingId/comments/:id",
-    //   this.controller.deleteComment.bind(this.controller)
-    // );
+
+    router.post(
+      "/bulk",
+      this.controller.addMultipleSightingsCategories.bind(this.controller)
+    );
     return router;
   }
 }

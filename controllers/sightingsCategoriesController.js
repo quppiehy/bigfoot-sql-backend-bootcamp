@@ -16,6 +16,23 @@ class SightingsCategoriesController extends BaseController {
     }
   }
 
+  // retrieve sightings_categpries for 1 sighting
+  async getOneSightingsCategories(req, res) {
+    console.log(req.body);
+    const sightingId = parseInt(req.params.sightingId, 10);
+    console.log(sightingId);
+    try {
+      const currSightingCategories = await this.sighting_categories.findAll({
+        where: { sightingId: sightingId },
+        order: [["id", "ASC"]],
+      });
+      return res.json(currSightingCategories);
+    } catch (err) {
+      console.log("Error retrieving record. ");
+      return res.status(400).json({ error: true, msg: err.message });
+    }
+  }
+
   // Add new Sighting Categories for 1 sighting
   async addSightingsCategories(req, res) {
     console.log(req.body);
@@ -37,19 +54,14 @@ class SightingsCategoriesController extends BaseController {
     }
   }
 
-  // retrieve sightings_categpries for 1 sighting
-  async getOneSightingsCategories(req, res) {
-    console.log(req.body);
-    const sightingId = parseInt(req.params.sightingId, 10);
-    console.log(sightingId);
+  // Bulk insert rows into sightings_categories for 1 sighting
+  async addMultipleSightingsCategories(req, res) {
     try {
-      const currSightingCategories = await this.sighting_categories.findAll({
-        where: { sightingId: sightingId },
-        order: [["id", "ASC"]],
-      });
-      return res.json(currSightingCategories);
+      console.log(req.body.sightingsCategories);
+      const newRow = req.body.sightingsCategories;
+      const categories = await this.sighting_categories.bulkCreate(newRow);
+      return res.json(categories);
     } catch (err) {
-      console.log("Error retrieving record. ");
       return res.status(400).json({ error: true, msg: err.message });
     }
   }
