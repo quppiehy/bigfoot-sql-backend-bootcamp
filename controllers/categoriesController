@@ -9,19 +9,33 @@ class CategoriesController extends BaseController {
   // Retrieve all categories
   async getCategories(req, res) {
     try {
-      const categories = await this.category.findAll();
+      const categories = await this.category.findAll({
+        order: [["name", "ASC"]],
+      });
       return res.json(categories);
     } catch (err) {
       return res.status(400).json({ error: true, msg: err });
     }
   }
 
+  // add new category
   async addCategory(req, res) {
     try {
       const newCategory = await this.category.create({
         name: req.body.name,
       });
       return res.json(newCategory);
+    } catch (err) {
+      return res.status(400).json({ error: true, msg: err });
+    }
+  }
+
+  // Retrieve one category
+  async getOneCategory(req, res) {
+    try {
+      const categoryId = parseInt(req.params.categoryId, 10);
+      const category = await this.category.findByPk(categoryId);
+      return res.json(category);
     } catch (err) {
       return res.status(400).json({ error: true, msg: err });
     }

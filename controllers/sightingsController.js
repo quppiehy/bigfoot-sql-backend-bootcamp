@@ -10,11 +10,25 @@ class SightingsController extends BaseController {
     this.sighting_categories = sighting_categories;
   }
 
+  async getAll(req, res) {
+    try {
+      const output = await this.Sighting.findAll({
+        include: [{ model: this.Category }],
+        order: [["id", "ASC"]],
+      });
+      return res.json(output);
+    } catch (err) {
+      return res.status(400).json({ error: true, msg: err.message });
+    }
+  }
+
   // Retrieve specific sighting
   async getOne(req, res) {
     const { sightingId } = req.params;
     try {
-      const sighting = await this.Sighting.findByPk(sightingId);
+      const sighting = await this.Sighting.findByPk(sightingId, {
+        include: [{ model: this.Category }],
+      });
       return res.json(sighting);
     } catch (err) {
       return res.status(400).json({ error: true, msg: err });
