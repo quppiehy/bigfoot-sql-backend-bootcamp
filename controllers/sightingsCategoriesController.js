@@ -36,12 +36,12 @@ class SightingsCategoriesController extends BaseController {
   // Add new Sighting Categories for 1 sighting
   async addSightingsCategories(req, res) {
     console.log(req.body);
-    const { sightingId, categoryId } = req.body;
-    console.log(sightingId, categoryId);
+    const data = req.body;
+
     try {
       const newSightingsCategories = {
-        sightingId: sightingId,
-        categoryId: categoryId,
+        sightingId: data[0].sightingId,
+        categoryId: data[0].categoryId,
       };
 
       const response = await this.sighting_categories.create(
@@ -57,11 +57,31 @@ class SightingsCategoriesController extends BaseController {
   // Bulk insert rows into sightings_categories for 1 sighting
   async addMultipleSightingsCategories(req, res) {
     try {
-      console.log(req.body.sightingsCategories);
-      const newRow = req.body.sightingsCategories;
+      console.log(req.body);
+      const newRow = req.body;
       const categories = await this.sighting_categories.bulkCreate(newRow);
       return res.json(categories);
     } catch (err) {
+      return res.status(400).json({ error: true, msg: err.message });
+    }
+  }
+
+  // Add new Sighting Categories for existing 1 sighting
+  async addNewSightingsCategories(req, res) {
+    console.log(req.body);
+    const info = req.body.sightingsCategories[0];
+    console.log(info.sightingId, info.categoryId);
+    try {
+      const newSightingsCategories = {
+        sightingId: info.sightingId,
+        categoryId: info.categoryId,
+      };
+      const response = await this.sighting_categories.create(
+        newSightingsCategories
+      );
+      return res.json(response);
+    } catch (err) {
+      console.log("Error creating record. ");
       return res.status(400).json({ error: true, msg: err.message });
     }
   }

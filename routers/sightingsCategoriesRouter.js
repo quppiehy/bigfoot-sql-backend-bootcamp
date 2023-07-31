@@ -23,6 +23,11 @@ class SightingsCategoriesRouter {
     );
 
     router.post(
+      "/new",
+      this.controller.addNewSightingsCategories.bind(this.controller)
+    );
+
+    router.post(
       "/bulk",
       this.controller.addMultipleSightingsCategories.bind(this.controller)
     );
