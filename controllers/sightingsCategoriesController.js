@@ -65,6 +65,50 @@ class SightingsCategoriesController extends BaseController {
       return res.status(400).json({ error: true, msg: err.message });
     }
   }
+
+  // Edit sightings_categories for 1 sighting
+  async updateSightingsCategories(req, res) {
+    console.log(req.body);
+    const data = req.body;
+    console.log(data.sightingsCategories[0].id);
+    const currId = data.sightingsCategories[0].id;
+    const catId = data.sightingsCategories[0].categoryId;
+    console.log(currId, catId);
+    try {
+      const currentSightingCategory = await this.sighting_categories.findByPk(
+        currId
+      );
+      await currentSightingCategory.update({
+        categoryId: catId,
+      });
+      const output = await this.sighting_categories.findByPk(currId);
+      return res.json(output);
+    } catch (err) {
+      return res.status(400).json({ error: true, msg: err.message });
+    }
+  }
+
+  // Edit multiple sightings_categories for 1 sighting
+  async updateMultipleSightingsCategories(req, res) {
+    console.log(req.body);
+    const data = req.body.sightingsCategories;
+    console.log(data);
+    const toBeUpdated = data.map((category) => ({
+      id: category.id,
+      categoryId: category.categoryId,
+    }));
+    console.log(toBeUpdated);
+
+    try {
+      const output = await this.sighting_categories.bulkCreate(toBeUpdated, {
+        updateOnDuplicate: [`categoryId`],
+      });
+
+      return res.json(output);
+    } catch (err) {
+      return res.status(400).json({ error: true, msg: err.message });
+    }
+  }
 }
 
 module.exports = SightingsCategoriesController;

@@ -15,6 +15,11 @@ module.exports = (sequelize, DataTypes) => {
   }
   Sighting_Categories.init(
     {
+      id: {
+        type: DataTypes.INTEGER,
+        primaryKey: true,
+        unique: true,
+      },
       sighting_id: {
         type: DataTypes.INTEGER,
         references: { model: "sightings", key: "id" },

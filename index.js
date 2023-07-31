@@ -17,7 +17,6 @@ const db = require("./db/models/index");
 const { sighting, comment, category, sighting_categories } = db;
 console.log(sighting_categories);
 
-console.log("Creating Sightings Controller instance ...");
 // initializing Controllers -> note the lowercase for the first word
 const sightingsController = new SightingsController(
   sighting,

@@ -26,6 +26,16 @@ class SightingsCategoriesRouter {
       "/bulk",
       this.controller.addMultipleSightingsCategories.bind(this.controller)
     );
+
+    router.put(
+      "/editOne",
+      this.controller.updateSightingsCategories.bind(this.controller)
+    );
+
+    router.put(
+      "/editMany",
+      this.controller.updateMultipleSightingsCategories.bind(this.controller)
+    );
     return router;
   }
 }
